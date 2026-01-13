@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Mama 💙</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: "Georgia", serif;
+      background: #f4f8fc;
+      color: #2f3e4e;
+      margin: 0;
+      padding: 0;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: #dbeafe;
+      text-align: center;
+      padding: 60px 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.8em;
+      color: #1e3a5f;
+    }
+
+    header p {
+      font-size: 1.2em;
+      margin-top: 10px;
+      color: #334e68;
+    }
+
+    section {
+      padding: 50px 20px;
+      max-width: 900px;
+      margin: auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    h2 {
+      color: #3b82f6;
+      margin-bottom: 20px;
+    }
+
+    .letter p {
+      font-size: 1.1em;
+      white-space: pre-line;
+    }
+
+    ul {
+      font-size: 1.1em;
+      padding-left: 20px;
+    }
+
+    footer {
+      background: #dbeafe;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 1.1em;
+      color: #1e3a5f;
+      position: relative;
+      z-index: 2;
+    }
+
+    .music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1em;
+      box-shadow: 0 6px 15px rgba(59,130,246,0.4);
+      z-index: 10;
+    }
+
+    .music-btn:hover {
+      background: #2563eb;
+    }
+
+    /* 💌 Hidden Message */
+    .hidden-heart {
+      font-size: 2.2em;
+      cursor: pointer;
+      text-align: center;
+      margin-top: 30px;
+      transition: transform 0.3s;
+    }
+
+    .hidden-heart:hover {
+      transform: scale(1.2);
+    }
+
+    .hidden-message {
+      display: none;
+      margin-top: 25px;
+      font-size: 1.2em;
+      background: #eff6ff;
+      padding: 25px;
+      border-radius: 14px;
+      color: #1e3a5f;
+      box-shadow: 0 6px 15px rgba(59,130,246,0.2);
+      text-align: center;
+    }
+
+    /* 🎉 Confetti canvas */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0; /* behind everything */
+    }
+
+    /* 💙 Floating hearts */
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp linear forwards;
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0) scale(1); opacity:0.8; }
+      to { transform: translateY(-110vh) scale(1.5); opacity:0; }
+    }
+  </style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<!-- 🎵 Background Music -->
+<audio id="bg-music" loop>
+  <source src="music/background.mp3" type="audio/mpeg">
+</audio>
+<button class="music-btn" onclick="toggleMusic()">🎵 Music</button>
+
+<header>
+  <h1>Happy Birthday, Mama</h1>
+  <p>January 16th — A joyful celebration of you 💙</p>
+</header>
+
+<section class="letter">
+  <h2>A Letter to You</h2>
+  <p>
+Dear Mama,
+
+Happy Birthday, Mama.
+Today—January 16th—is a day worth celebrating brightly and joyfully, because it celebrates you.
+
+I made this website because I wanted to give you something that lasts—something you can return to whenever you want and feel just how loved you are.
+
+You turn ordinary moments into beautiful ones just by being there.
+You are my comfort, my encouragement, and my home.
+
+Happy Birthday, Mama.
+With all my love—always.
+  </p>
+
+  <div class="hidden-heart" onclick="revealMessage(); launchConfetti();">
+    💙
+  </div>
+
+  <div id="hiddenMessage" class="hidden-message">
+    Mama, if you found this…  
+    You are my greatest blessing.  
+    No matter how old I get, I will always need your love.  
+    I love you endlessly. 💙
+  </div>
+</section>
+
+<section>
+  <h2>Written Memories</h2>
+  <ul>
+    <li>Your smile that makes everything better.</li>
+    <li>Your endless patience and kindness.</li>
+    <li>The safety of your love.</li>
+    <li>The joy of being your child.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>This will always be here — just like my love for you. 💙</p>
+</footer>
+
+<script>
+  // 🎵 Music
+  const music = document.getElementById("bg-music");
+  function toggleMusic() {
+    music.paused ? music.play() : music.pause();
+  }
+  document.body.addEventListener("click", () => music.play(), { once: true });
+
+  // 💌 Hidden message
+  function revealMessage() {
+    document.getElementById("hiddenMessage").style.display = "block";
+  }
+
+  // 🎉 Confetti
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+  let pieces = [];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+
+  function launchConfetti() {
+    pieces = [];
+    for (let i = 0; i < 150; i++) {
+      pieces.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        size: Math.random() * 8 + 4,
+        speed: Math.random() * 3 + 2,
+        color: ["#bfdbfe", "#93c5fd", "#60a5fa", "#dbeafe"][
+          Math.floor(Math.random() * 4)
+        ]
+      });
+    }
+    animateConfetti();
+  }
+
+  function animateConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      ctx.fillStyle = p.color;
+      ctx.fillRect(p.x, p.y, p.size, p.size);
+      p.y += p.speed;
+    });
+    pieces = pieces.filter(p => p.y < canvas.height);
+    if (pieces.length > 0) requestAnimationFrame(animateConfetti);
+  }
+
+  window.onload = launchConfetti;
+
+  // 💙 Floating hearts generator
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💙";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = 5 + Math.random() * 5 + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 10000);
+  }, 600);
+</script>
+
+</body>
+</html>
